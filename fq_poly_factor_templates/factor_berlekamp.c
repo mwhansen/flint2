@@ -86,8 +86,8 @@ __TEMPLATE(T, poly_factor_berlekamp) (TEMPLATE(T, poly_factor_t) factors,
     const slong n = TEMPLATE(T, poly_degree) (f, ctx);
 
     TEMPLATE(T, poly_factor_t) fac1, fac2;
-    TEMPLATE(T, poly_t) x, x_q;
-    TEMPLATE(T, poly_t) x_qi, x_qi2;
+    TEMPLATE(T, poly_t) x_q;
+    TEMPLATE(T, poly_t) x_qi, x_qi2, finv;
     TEMPLATE(T, poly_t) Q, r;
 
     TEMPLATE(T, mat_t) matrix;
@@ -129,12 +129,12 @@ __TEMPLATE(T, poly_factor_berlekamp) (TEMPLATE(T, poly_factor_t) factors,
     }
 
     /* Step 1, compute x^q mod f in F_p[X]/<f> */
-    TEMPLATE(T, poly_init) (x, ctx);
+    TEMPLATE(T, poly_init) (finv, ctx);
     TEMPLATE(T, poly_init) (x_q, ctx);
 
-    TEMPLATE(T, poly_gen) (x, ctx);
-    TEMPLATE(T, poly_powmod_fmpz_binexp) (x_q, x, q, f, ctx);
-    TEMPLATE(T, poly_clear) (x, ctx);
+    TEMPLATE(T, poly_reverse)(finv, f, f->length, ctx);
+    TEMPLATE(T, poly_inv_series_newton)(finv, finv, f->length, ctx);
+    TEMPLATE(T, poly_powmod_xq_preinv)(x_q, f, finv, ctx);
 
     /* Step 2, compute the matrix for the Berlekamp Map */
     TEMPLATE(T, mat_init) (matrix, n, n, ctx);

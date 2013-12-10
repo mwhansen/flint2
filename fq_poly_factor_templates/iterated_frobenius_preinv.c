@@ -48,8 +48,7 @@ TEMPLATE(T, poly_iterated_frobenius_preinv) (TEMPLATE(T, poly_t) * rop,
     {
         TEMPLATE(T, mat_init) (HH, n_sqrt(v->length - 1) + 1, v->length - 1,
                                ctx);
-        TEMPLATE(T, poly_powmod_fmpz_sliding_preinv) (rop[1], rop[0], q, 0, v,
-                                                      vinv, ctx);
+        TEMPLATE(T, poly_powmod_xq_preinv)(rop[1], v, vinv, ctx);
         TEMPLATE(T, poly_precompute_matrix) (HH, rop[1], v, vinv, ctx);
         for (i = 2; i < n; i++)
         {
@@ -61,7 +60,8 @@ TEMPLATE(T, poly_iterated_frobenius_preinv) (TEMPLATE(T, poly_t) * rop,
     }
     else
     {
-        for (i = 1; i < n; i++)
+        TEMPLATE(T, poly_powmod_xq_preinv)(rop[1], v, vinv, ctx);
+        for (i = 2; i < n; i++)
             TEMPLATE(T, poly_powmod_fmpz_sliding_preinv) (rop[i], rop[i - 1],
                                                           q, 0, v, vinv, ctx);
 

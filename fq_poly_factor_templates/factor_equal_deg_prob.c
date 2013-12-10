@@ -32,19 +32,21 @@
 #ifdef T
 
 #include "templates.h"
-
 #include "ulong_extras.h"
+
 int
-TEMPLATE(T, poly_factor_equal_deg_prob) (TEMPLATE(T, poly_t) factor,
+TEMPLATE(T, poly_factor_equal_deg_prob) (TEMPLATE(T, poly_t) f,
+                                         TEMPLATE(T, poly_t) g,
                                          flint_rand_t state,
                                          const TEMPLATE(T, poly_t) pol,
                                          slong d,
                                          const TEMPLATE(T, ctx_t) ctx)
 {
-    TEMPLATE(T, poly_t) a, b, c, polinv;
+    TEMPLATE(T, poly_struct) *h2;
+    TEMPLATE(T, poly_t) a, b, c, xq, polinv, gamma;
     TEMPLATE(T, t) t;
     fmpz_t exp, q;
-    int res = 1;
+    int res = 0;
     slong i, k;
 
     if (pol->length <= 1)
@@ -56,7 +58,6 @@ TEMPLATE(T, poly_factor_equal_deg_prob) (TEMPLATE(T, poly_t) factor,
 
     fmpz_init(q);
     TEMPLATE(T, ctx_order) (q, ctx);
-
     TEMPLATE(T, poly_init) (a, ctx);
 
     do
@@ -64,62 +65,73 @@ TEMPLATE(T, poly_factor_equal_deg_prob) (TEMPLATE(T, poly_t) factor,
         TEMPLATE(T, poly_randtest) (a, state, pol->length - 1, ctx);
     } while (a->length <= 1);
 
-    TEMPLATE(T, poly_gcd) (factor, a, pol, ctx);
-
-    if (factor->length != 1)
-    {
-        TEMPLATE(T, poly_clear) (a, ctx);
-        return 1;
-    }
-
-    TEMPLATE(T, poly_init) (b, ctx);
     TEMPLATE(T, poly_init) (polinv, ctx);
-
     TEMPLATE(T, poly_reverse) (polinv, pol, pol->length, ctx);
     TEMPLATE(T, poly_inv_series_newton) (polinv, polinv, polinv->length, ctx);
 
-    fmpz_init(exp);
+    
+    TEMPLATE(T, poly_init) (b, ctx);
+    TEMPLATE(T, poly_init) (xq, ctx);
+    TEMPLATE(T, poly_init) (gamma, ctx);
+    TEMPLATE(T, poly_powmod_xq_preinv)(xq, pol, polinv, ctx);
+    TEMPLATE(T, poly_trace_frob_preinv)(b, a, d - 1, xq, pol, polinv, ctx);
+
     if (fmpz_cmp_ui(TEMPLATE(T, ctx_prime) (ctx), 2) > 0)
     {
-        /* compute a^{(q^d-1)/2} rem pol */
-        fmpz_pow_ui(exp, q, d);
-        fmpz_sub_ui(exp, exp, 1);
+        /* compute a^{(q-1)/2} rem pol */
+        fmpz_init(exp);
+        fmpz_sub_ui(exp, q, 1);
         fmpz_fdiv_q_2exp(exp, exp, 1);
 
-        TEMPLATE(T, poly_powmod_fmpz_sliding_preinv) (b, a, exp, 0, pol,
+        TEMPLATE(T, poly_powmod_fmpz_sliding_preinv) (gamma, b, exp, 0, pol,
                                                       polinv, ctx);
+
+        /* Compute gcd(gamma, pol) */
+        TEMPLATE(T, poly_gcd)(f, gamma, pol, ctx);
+        if (f->length > 1 && f->length != pol->length)
+        {
+            res += 1;
+            h2 = g;
+        }
+        else
+            h2 = f;
+
+        /* Compute gcd(gamma - 1, pol) */
+        TEMPLATE(T, init) (t, ctx);
+        TEMPLATE(T, sub_one) (t, gamma->coeffs, ctx);
+        TEMPLATE(T, poly_set_coeff) (gamma, 0, t, ctx);
+        TEMPLATE(T, clear) (t, ctx);
+
+        TEMPLATE(T, poly_gcd)(h2, gamma, pol, ctx);
+        if (h2->length > 1 && h2->length != pol->length)
+            res += 1;
+        
+        fmpz_clear(exp);
     }
     else
     {
-        /* compute b = (a^{2^{k*d-1}}+a^{2^{k*d-2}}+...+a^4+a^2+a) rem pol */
-        k = d * TEMPLATE(T, ctx_degree) (ctx);  /* TODO: Handle overflow? */
-        TEMPLATE(T, poly_rem) (b, a, pol, ctx);
-        TEMPLATE(T, poly_init) (c, ctx);
+        /* compute gamma = (b^{2^{k-1}}+b^{2^{k-2}}+...+b^3+b^2+b) rem pol */
+        k = TEMPLATE(T, ctx_degree) (ctx); 
+        TEMPLATE(T, poly_init)(c, ctx);
+        TEMPLATE(T, poly_set) (gamma, b, ctx);
         TEMPLATE(T, poly_set) (c, b, ctx);
         for (i = 1; i < k; i++)
         {
-            /* c = a^{2^i} = (a^{2^{i-1}})^2 */
+            /* c = b^{2^i} = (b^{2^{i-1}})^2 */
             TEMPLATE(T, poly_powmod_ui_binexp_preinv) (c, c, 2, pol, polinv,
                                                        ctx);
-            TEMPLATE(T, poly_add) (b, b, c, ctx);
+            TEMPLATE(T, poly_add) (gamma, b, c, ctx);
         }
-        TEMPLATE(T, poly_rem) (b, b, pol, ctx);
         TEMPLATE(T, poly_clear) (c, ctx);
+
+        TEMPLATE(T, poly_gcd)(f, gamma, pol, ctx);
+        if (f->length > 1 && f->length != pol->length)
+            res += 1;
     }
-    fmpz_clear(exp);
-
-    TEMPLATE(T, init) (t, ctx);
-    TEMPLATE(T, sub_one) (t, b->coeffs + 0, ctx);
-    TEMPLATE(T, poly_set_coeff) (b, 0, t, ctx);
-    TEMPLATE(T, clear) (t, ctx);
-
-    TEMPLATE(T, poly_gcd) (factor, b, pol, ctx);
-
-    if ((factor->length <= 1) || (factor->length == pol->length))
-        res = 0;
 
     TEMPLATE(T, poly_clear) (a, ctx);
     TEMPLATE(T, poly_clear) (b, ctx);
+    TEMPLATE(T, poly_clear) (gamma, ctx);
     TEMPLATE(T, poly_clear) (polinv, ctx);
     fmpz_clear(q);
 

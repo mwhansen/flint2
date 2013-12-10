@@ -121,7 +121,8 @@ TEMPLATE(T, poly_factor_distinct_deg)(TEMPLATE(T, poly_factor_t) res,
                                       const TEMPLATE(T, ctx_t) ctx);
 
 int
-TEMPLATE(T, poly_factor_equal_deg_prob)(TEMPLATE(T, poly_t) factor,
+TEMPLATE(T, poly_factor_equal_deg_prob)(TEMPLATE(T, poly_t) factor1,
+                                        TEMPLATE(T, poly_t) factor2,
                                         flint_rand_t state,
                                         const TEMPLATE(T, poly_t) pol, slong d,
                                         const TEMPLATE(T, ctx_t) ctx);

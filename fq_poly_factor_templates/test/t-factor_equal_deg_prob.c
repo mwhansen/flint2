@@ -43,7 +43,7 @@ main(void)
     for (iter = 0; iter < 5 * flint_test_multiplier(); iter++)
     {
         TEMPLATE(T, ctx_t) ctx;
-        TEMPLATE(T, poly_t) poly1, poly2, q, r;
+        TEMPLATE(T, poly_t) poly1, poly2, poly3, q, r;
         slong length;
         int i, num;
 
@@ -53,6 +53,7 @@ main(void)
         TEMPLATE(T, poly_init) (r, ctx);
         TEMPLATE(T, poly_init) (poly1, ctx);
         TEMPLATE(T, poly_init) (poly2, ctx);
+        TEMPLATE(T, poly_init) (poly3, ctx);
 
         length = n_randint(state, 10) + 2;
         do
@@ -81,7 +82,7 @@ main(void)
         }
 
         while (!TEMPLATE(T, poly_factor_equal_deg_prob)
-               (poly2, state, poly1, length - 1, ctx))
+               (poly2, poly3, state, poly1, length - 1, ctx))
         {
         };
 
