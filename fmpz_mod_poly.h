@@ -759,6 +759,12 @@ void
 fmpz_mod_poly_compose_mod_horner(fmpz_mod_poly_t res, const fmpz_mod_poly_t poly1,
                          const fmpz_mod_poly_t poly2, const fmpz_mod_poly_t poly3);
 
+
+/*  Berlekamp Massey *********************************************************/
+
+void
+fmpz_mod_poly_berlekamp_massey(fmpz_mod_poly_t rop, const fmpz *c, ulong k);
+
 /*  Radix conversion *********************************************************/
 
 typedef struct {
