@@ -35,7 +35,11 @@
 
 /*  Memory management  *******************************************************/
 
-TEMPLATE(T, struct) * _TEMPLATE(T, vec_init)(slong len, const TEMPLATE(T, ctx_t) ctx);
+TEMPLATE(T, struct) *
+_TEMPLATE(T, vec_init)(slong len, const TEMPLATE(T, ctx_t) ctx);
+
+TEMPLATE(T, struct) *
+_TEMPLATE(T, vec_init2)(slong len, const TEMPLATE(T, ctx_t) ctx);
 
 void _TEMPLATE(T, vec_clear)(TEMPLATE(T, struct) * vec, slong len,
                              const TEMPLATE(T, ctx_t) ctx);
