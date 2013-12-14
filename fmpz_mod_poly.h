@@ -830,6 +830,13 @@ int _fmpz_mod_poly_print(const fmpz *poly, slong len, const fmpz_t p)
     return _fmpz_mod_poly_fprint(stdout, poly, len, p);
 }
 
+static __inline__ 
+int _fmpz_mod_poly_print_pretty(const fmpz *poly, slong len, const char * x,
+                                const fmpz_t p)
+{
+    return _fmpz_poly_fprint_pretty(stdout, poly, len, x);
+}
+
 static __inline__
 int fmpz_mod_poly_print(const fmpz_mod_poly_t poly)
 {
