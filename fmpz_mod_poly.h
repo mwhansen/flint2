@@ -329,18 +329,18 @@ fmpz_mod_poly_mulmod_preinv(fmpz_mod_poly_t res, const fmpz_mod_poly_t poly1,
                          const fmpz_mod_poly_t finv);
 
 void
-_fmpz_mod_poly_mul_transposed_preinv(fmpz *rop,
-                                     const fmpz *b, slong lenb,
-                                     const fmpz *a,
-                                     const fmpz *f, slong lenf,
-                                     const fmpz *finv, slong lenfinv,
-                                     const fmpz_t p);
+_fmpz_mod_poly_mulmod_transposed_preinv(fmpz *rop,
+                                        const fmpz *b, slong lenb,
+                                        const fmpz *a,
+                                        const fmpz *f, slong lenf,
+                                        const fmpz *finv, slong lenfinv,
+                                        const fmpz_t p);
 void
-fmpz_mod_poly_mul_transposed_preinv(fmpz *rop,
-                                    const fmpz_mod_poly_t b,
-                                    const fmpz *a,
-                                    const fmpz_mod_poly_t f,
-                                    const fmpz_mod_poly_t finv);
+fmpz_mod_poly_mulmod_transposed_preinv(fmpz *rop,
+                                       const fmpz_mod_poly_t b,
+                                       const fmpz *a,
+                                       const fmpz_mod_poly_t f,
+                                       const fmpz_mod_poly_t finv);
 
 /*  Powering *****************************************************************/
 

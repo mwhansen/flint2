@@ -25,14 +25,13 @@
 
 #include "fmpz_mod_poly.h"
 
-/* Assume rop has room for lenf - 1 coeffs */
 void
-_fmpz_mod_poly_mul_transposed_preinv(fmpz *rop,
-                                     const fmpz *b, slong lenb,
-                                     const fmpz *a,
-                                     const fmpz *f, slong lenf,
-                                     const fmpz *finv, slong lenfinv,
-                                     const fmpz_t p)
+_fmpz_mod_poly_mulmod_transposed_preinv(fmpz *rop,
+                                        const fmpz *b, slong lenb,
+                                        const fmpz *a,
+                                        const fmpz *f, slong lenf,
+                                        const fmpz *finv, slong lenfinv,
+                                        const fmpz_t p)
 {
     fmpz *temp, *t1, *t2, *t3;
 
@@ -64,17 +63,19 @@ _fmpz_mod_poly_mul_transposed_preinv(fmpz *rop,
     _fmpz_vec_clear(t3, lenf - 1);
 }
 
+/* Assume rop and a have room for f->length - 1 coeffs */
 void
-fmpz_mod_poly_mul_transposed_preinv(fmpz *rop,
-                                    const fmpz_mod_poly_t b,
-                                    const fmpz *a,
-                                    const fmpz_mod_poly_t f,
-                                    const fmpz_mod_poly_t finv)
+fmpz_mod_poly_mulmod_transposed_preinv(fmpz *rop,
+                                       const fmpz_mod_poly_t b,
+                                       const fmpz *a,
+                                       const fmpz_mod_poly_t f,
+                                       const fmpz_mod_poly_t finv)
 {
-    _fmpz_mod_poly_mul_transposed_preinv(rop,
-                                         b->coeffs, b->length,
-                                         a,
-                                         f->coeffs, f->length,
-                                         finv->coeffs, finv->length,
-                                         &(f->p));
+    
+    _fmpz_mod_poly_mulmod_transposed_preinv(rop,
+                                            b->coeffs, b->length,
+                                            a,
+                                            f->coeffs, f->length,
+                                            finv->coeffs, finv->length,
+                                            &(f->p));
 }

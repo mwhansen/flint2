@@ -84,12 +84,13 @@ fq_minpoly(fmpz_mod_poly_t g, const fq_t op, const fq_ctx_t ctx)
             _fmpz_mod_poly_normalise(temp);
             fmpz_mod_poly_swap(g_prime, temp);
         }
-        fmpz_mod_poly_mulmod_preinv(temp, tau, g_prime, ctx->modulus, ctx->inv);
+        fmpz_mod_poly_mulmod_preinv(temp, tau, g_prime,
+                                    ctx->modulus, ctx->inv);
         fmpz_mod_poly_swap(tau, temp);
 
         /* Choose v \in K^n at random for next iteration */
         nonzero = 0;
-        while (nonzero == 0)
+        while (!nonzero)
         {
             nonzero = 0;
             for (i = 0; i < n; i++)
@@ -98,7 +99,8 @@ fq_minpoly(fmpz_mod_poly_t g, const fq_t op, const fq_ctx_t ctx)
                 nonzero = nonzero || !fmpz_is_zero(v + i);
             }
         }
-        fmpz_mod_poly_mul_transposed_preinv(v, tau, v, ctx->modulus, ctx->inv);
+        fmpz_mod_poly_mulmod_transposed_preinv(v, tau, v,
+                                               ctx->modulus, ctx->inv);
     }
 
     _fmpz_vec_clear(c, 2 * n);
