@@ -36,23 +36,32 @@ _nmod_poly_mulmod_transposed_preinv(mp_ptr rop,
     mp_limb_t *temp, *t1, *t2, *t3;
 
     temp = _nmod_vec_init(lenf);
+    _nmod_vec_zero(temp, lenf);
     t1 = _nmod_vec_init(2 * lenf - 2);
+    _nmod_vec_zero(t1, 2 * lenf - 2);
     t2 = _nmod_vec_init(2 * lenf - 2);
+    _nmod_vec_zero(t2, 2 * lenf - 2);
     t3 = _nmod_vec_init(lenf - 1);
+    _nmod_vec_zero(t3, lenf - 1);
     
     /* t1 = rev(f) * a div x^n */
     _nmod_poly_reverse(temp, f, lenf, lenf);
     _nmod_poly_mul(t1, temp, lenf, a, lenf - 1, p);
-    _nmod_poly_shift_right(t1, t1, 2*lenf - 2, lenf - 1);
+    _nmod_poly_shift_right(t1, t1, lenf - 1, lenf - 1);
 
     /* (t2 = ) rop = rev(b) * a div x^(n-1) */
     _nmod_poly_reverse(temp, b, lenb, lenf - 1);
     _nmod_poly_mul(t2, temp, lenf - 1, a, lenf - 1, p);
-    _nmod_poly_shift_right(rop, t2, 2*lenf - 3, lenf - 2);
+    _nmod_poly_shift_right(rop, t2, lenf - 1, lenf - 2);
 
     /* t3 = x * (rev(f)^(-1) * rev(b) * t1 mod x^(n-1)) */
-    _nmod_poly_mullow(t2, temp, lenf - 1, finv, lenfinv, lenf - 2, p);
-    _nmod_poly_mullow(t3 + 1, t2, lenf - 2, t1, lenf - 1, lenf - 2, p);
+    if (lenf - 2 == 0)
+        _nmod_vec_zero(t3, lenf - 1);
+    else
+    {
+        _nmod_poly_mullow(t2, finv, lenfinv, temp, lenf - 1, lenf - 2, p);
+        _nmod_poly_mullow(t3 + 1, t1, lenf - 1, t2, lenf - 2, lenf - 2, p);
+    }
 
     /* rop = rop - x*t3 */
     _nmod_poly_sub(rop, rop, lenf - 1, t3, lenf - 1, p);
