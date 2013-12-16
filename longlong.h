@@ -182,7 +182,7 @@
 #if (GMP_LIMB_BITS == 32 && defined (__arm__))
 
 #define add_ssaaaa(sh, sl, ah, al, bh, bl)                \
-  __asm__ ("adds\t%1, %4, %5\n\tadc\t%0, %2, %3"			 \
+  __asm__ (".arm\n\tadds\t%1, %4, %5\n\tadc\t%0, %2, %3"			 \
 	   : "=r" (sh), "=&r" (sl)					                \
 	   : "r" (ah), "rI" (bh), "%r" (al), "rI" (bl) : "cc")
 
@@ -191,47 +191,51 @@
     if (__builtin_constant_p (al))					              \
       {									                             \
 	if (__builtin_constant_p (ah))					              \
-	  __asm__ ("rsbs\t%1, %5, %4\n\trsc\t%0, %3, %2"		     \
+	  __asm__ (".arm\n\trsbs\t%1, %5, %4\n\trsc\t%0, %3, %2"		     \
 		   : "=r" (sh), "=&r" (sl)				                    \
 		   : "rI" (ah), "r" (bh), "rI" (al), "r" (bl) : "cc");  \
 	else								                                \
-	  __asm__ ("rsbs\t%1, %5, %4\n\tsbc\t%0, %2, %3"		     \
+	  __asm__ (".arm\n\trsbs\t%1, %5, %4\n\tsbc\t%0, %2, %3"		     \
 		   : "=r" (sh), "=&r" (sl)				                    \
 		   : "r" (ah), "rI" (bh), "rI" (al), "r" (bl) : "cc");  \
       }									                             \
     else if (__builtin_constant_p (ah))					        \
       {									                             \
 	if (__builtin_constant_p (bl))					              \
-	  __asm__ ("subs\t%1, %4, %5\n\trsc\t%0, %3, %2"		     \
+	  __asm__ (".arm\n\tsubs\t%1, %4, %5\n\trsc\t%0, %3, %2"		     \
 		   : "=r" (sh), "=&r" (sl)				                    \
 		   : "rI" (ah), "r" (bh), "r" (al), "rI" (bl) : "cc");  \
 	else								                                \
-	  __asm__ ("rsbs\t%1, %5, %4\n\trsc\t%0, %3, %2"		     \
+	  __asm__ (".arm\n\trsbs\t%1, %5, %4\n\trsc\t%0, %3, %2"		     \
 		   : "=r" (sh), "=&r" (sl)				                    \
 		   : "rI" (ah), "r" (bh), "rI" (al), "r" (bl) : "cc");  \
       }									                             \
     else if (__builtin_constant_p (bl))					        \
       {									                             \
 	if (__builtin_constant_p (bh))					              \
-	  __asm__ ("subs\t%1, %4, %5\n\tsbc\t%0, %2, %3"		     \
+	  __asm__ (".arm\n\tsubs\t%1, %4, %5\n\tsbc\t%0, %2, %3"		     \
 		   : "=r" (sh), "=&r" (sl)				                    \
 		   : "r" (ah), "rI" (bh), "r" (al), "rI" (bl) : "cc");  \
 	else								                                \
-	  __asm__ ("subs\t%1, %4, %5\n\trsc\t%0, %3, %2"		     \
+	  __asm__ (".arm\n\tsubs\t%1, %4, %5\n\trsc\t%0, %3, %2"		     \
 		   : "=r" (sh), "=&r" (sl)				                    \
 		   : "rI" (ah), "r" (bh), "r" (al), "rI" (bl) : "cc");  \
       }									                             \
     else /* only bh might be a constant */				        \
-      __asm__ ("subs\t%1, %4, %5\n\tsbc\t%0, %2, %3"			  \
+      __asm__ (".arm\n\tsubs\t%1, %4, %5\n\tsbc\t%0, %2, %3"			  \
 	       : "=r" (sh), "=&r" (sl)					              \
 	       : "r" (ah), "rI" (bh), "r" (al), "rI" (bl) : "cc"); \
     } while (0)
 
+#if defined(__arm_m__) /* only M-series support multiply-long */
+
 #define umul_ppmm(xh, xl, a, b) \
-  __asm__ ("umull %0,%1,%2,%3" : "=&r" (xl), "=&r" (xh) : "r" (a), "r" (b))
+  __asm__ (".arm\n\tumull %0,%1,%2,%3" : "=&r" (xl), "=&r" (xh) : "r" (a), "r" (b))
 
 #define smul_ppmm(xh, xl, a, b) \
-  __asm__ ("smull %0,%1,%2,%3" : "=&r" (xl), "=&r" (xh) : "r" (a), "r" (b))
+  __asm__ (".arm\n\tsmull %0,%1,%2,%3" : "=&r" (xl), "=&r" (xh) : "r" (a), "r" (b))
+
+#endif /* M-series */
 
 #endif /* ARM */
 
@@ -245,6 +249,37 @@
 #define __highbit (~(mp_limb_t)0 ^ ((~(mp_limb_t)0) >> 1))
 
 #define NEED_CLZ_TAB
+
+#if !(GMP_LIMB_BITS == 32 && defined (__arm__)) || !defined (__arm_m__)
+#if !(GMP_LIMB_BITS == 64 && defined (__ia64))
+
+#define umul_ppmm(w1, w0, u, v)				 \
+  do {									          \
+    mp_limb_t __x0, __x1, __x2, __x3;		 \
+    mp_limb_t __ul, __vl, __uh, __vh;		 \
+    mp_limb_t __u = (u), __v = (v);			 \
+									                \
+    __ul = __ll_lowpart (__u);				 \
+    __uh = __ll_highpart (__u);				 \
+    __vl = __ll_lowpart (__v);				 \
+    __vh = __ll_highpart (__v);				 \
+									                \
+    __x0 = (mp_limb_t) __ul * __vl;			 \
+    __x1 = (mp_limb_t) __ul * __vh;			 \
+    __x2 = (mp_limb_t) __uh * __vl;			 \
+    __x3 = (mp_limb_t) __uh * __vh;			 \
+									                \
+    __x1 += __ll_highpart (__x0);/* this can't give carry */            \
+    __x1 += __x2;		/* but this indeed can */		                     \
+    if (__x1 < __x2)		/* did we get it? */			                     \
+      __x3 += __ll_B;		/* yes, add it in the proper pos. */         \
+									                                             \
+    (w1) = __x3 + __ll_highpart (__x1);					                  \
+    (w0) = (__x1 << GMP_LIMB_BITS/2) + __ll_lowpart (__x0);		\
+  } while (0)
+
+#endif
+#endif
 
 #if !(GMP_LIMB_BITS == 32 && defined (__arm__))
 
@@ -275,31 +310,6 @@
     __x = (al) - (bl);							 \
     (sh) = (ah) - (bh) - ((al) < (bl));    \
     (sl) = __x;								    \
-  } while (0)
-
-#define umul_ppmm(w1, w0, u, v)				 \
-  do {									          \
-    mp_limb_t __x0, __x1, __x2, __x3;		 \
-    mp_limb_t __ul, __vl, __uh, __vh;		 \
-    mp_limb_t __u = (u), __v = (v);			 \
-									                \
-    __ul = __ll_lowpart (__u);				 \
-    __uh = __ll_highpart (__u);				 \
-    __vl = __ll_lowpart (__v);				 \
-    __vh = __ll_highpart (__v);				 \
-									                \
-    __x0 = (mp_limb_t) __ul * __vl;			 \
-    __x1 = (mp_limb_t) __ul * __vh;			 \
-    __x2 = (mp_limb_t) __uh * __vl;			 \
-    __x3 = (mp_limb_t) __uh * __vh;			 \
-									                \
-    __x1 += __ll_highpart (__x0);/* this can't give carry */            \
-    __x1 += __x2;		/* but this indeed can */		                     \
-    if (__x1 < __x2)		/* did we get it? */			                     \
-      __x3 += __ll_B;		/* yes, add it in the proper pos. */         \
-									                                             \
-    (w1) = __x3 + __ll_highpart (__x1);					                  \
-    (w0) = (__x1 << GMP_LIMB_BITS/2) + __ll_lowpart (__x0);		\
   } while (0)
 
 #endif
@@ -432,7 +442,7 @@
 
 #endif /* non x86 fallback code */
 
-#if !(GMP_LIMB_BITS == 32 && defined (__arm__))
+#if !(GMP_LIMB_BITS == 32 && defined (__arm__)) || !defined (__arm_m__)
 
 #define smul_ppmm(w1, w0, u, v)                         \
   do {                                                  \
