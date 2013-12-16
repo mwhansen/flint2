@@ -352,6 +352,12 @@ void _fq_norm(fmpz_t rop, const fmpz *op, slong len, const fq_ctx_t ctx);
 
 void fq_norm(fmpz_t rop, const fq_t op, const fq_ctx_t ctx);
 
+void
+fq_power_projection(fmpz *c, const fq_t sigma, const fmpz *v, ulong l,
+                    const fq_ctx_t ctx);
+
+void
+fq_minpoly(fmpz_mod_poly_t g, const fq_t op, const fq_ctx_t ctx);
 
 /* Bit packing ******************************************************/
 

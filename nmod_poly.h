@@ -550,6 +550,22 @@ int _nmod_poly_invmod(mp_limb_t *A,
 int nmod_poly_invmod(nmod_poly_t A, 
                      const nmod_poly_t B, const nmod_poly_t P);
 
+
+void
+_nmod_poly_mulmod_transposed_preinv(mp_ptr rop,
+                                    mp_srcptr b, slong lenb,
+                                    mp_srcptr a,
+                                    mp_srcptr f, slong lenf,
+                                    mp_srcptr finv, slong lenfinv,
+                                    const nmod_t p);
+
+void
+nmod_poly_mulmod_transposed_preinv(mp_ptr rop,
+                                   const nmod_poly_t b,
+                                   mp_srcptr a,
+                                   const nmod_poly_t f,
+                                   const nmod_poly_t finv);
+
 /* Powering  *****************************************************************/
 
 void _nmod_poly_pow_binexp(mp_ptr res, 
@@ -1133,6 +1149,10 @@ void  _nmod_poly_exp_expinv_series(mp_ptr f, mp_ptr g, mp_srcptr h, slong n, nmo
 
 void _nmod_poly_exp_series(mp_ptr f, mp_srcptr h, slong n, nmod_t mod);
 void nmod_poly_exp_series(nmod_poly_t f, const nmod_poly_t h, slong n);
+
+/* Berlekamp Massey **********************************************************/
+void
+nmod_poly_berlekamp_massey(nmod_poly_t rop, mp_srcptr c, slong k);
 
 /* Products  *****************************************************************/
 

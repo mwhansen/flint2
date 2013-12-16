@@ -163,6 +163,7 @@ static __inline__ void fq_nmod_init(fq_nmod_t rop, const fq_nmod_ctx_t ctx)
 static __inline__ void fq_nmod_init2(fq_nmod_t rop, const fq_nmod_ctx_t ctx)
 {
     nmod_poly_init2_preinv(rop, ctx->mod.n, ctx->mod.ninv, fq_nmod_ctx_degree(ctx));
+    _nmod_vec_zero(rop->coeffs, fq_nmod_ctx_degree(ctx));
 }
 
 static __inline__ void fq_nmod_clear(fq_nmod_t rop, const fq_nmod_ctx_t ctx)
@@ -382,12 +383,22 @@ void fq_nmod_trace(fmpz_t rop, const fq_nmod_t op, const fq_nmod_ctx_t ctx);
 void _fq_nmod_frobenius(mp_limb_t *rop, const mp_limb_t *op, slong len, slong e, 
                         const fq_nmod_ctx_t ctx);
 
-void fq_nmod_frobenius(fq_nmod_t rop, const fq_nmod_t op, slong e, const fq_nmod_ctx_t ctx);
+void fq_nmod_frobenius(fq_nmod_t rop, const fq_nmod_t op, slong e,
+                       const fq_nmod_ctx_t ctx);
 
 void _fq_nmod_norm(fmpz_t rop, const mp_limb_t *op, slong len, 
                    const fq_nmod_ctx_t ctx);
 
 void fq_nmod_norm(fmpz_t rop, const fq_nmod_t op, const fq_nmod_ctx_t ctx);
+
+
+/* Minimal polynomial ******************************************************/    
+void
+fq_nmod_power_projection(mp_ptr c, const fq_nmod_t sigma, mp_srcptr v, slong l,
+                         const fq_nmod_ctx_t ctx);
+
+void
+fq_nmod_minpoly(nmod_poly_t g, const fq_nmod_t op, const fq_nmod_ctx_t ctx);
 
 /* Bit packing ******************************************************/
 

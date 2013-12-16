@@ -328,6 +328,20 @@ fmpz_mod_poly_mulmod_preinv(fmpz_mod_poly_t res, const fmpz_mod_poly_t poly1,
                          const fmpz_mod_poly_t poly2, const fmpz_mod_poly_t f,
                          const fmpz_mod_poly_t finv);
 
+void
+_fmpz_mod_poly_mulmod_transposed_preinv(fmpz *rop,
+                                        const fmpz *b, slong lenb,
+                                        const fmpz *a,
+                                        const fmpz *f, slong lenf,
+                                        const fmpz *finv, slong lenfinv,
+                                        const fmpz_t p);
+void
+fmpz_mod_poly_mulmod_transposed_preinv(fmpz *rop,
+                                       const fmpz_mod_poly_t b,
+                                       const fmpz *a,
+                                       const fmpz_mod_poly_t f,
+                                       const fmpz_mod_poly_t finv);
+
 /*  Powering *****************************************************************/
 
 void _fmpz_mod_poly_pow(fmpz *rop, const fmpz *op, slong len, ulong e, 
@@ -759,6 +773,12 @@ void
 fmpz_mod_poly_compose_mod_horner(fmpz_mod_poly_t res, const fmpz_mod_poly_t poly1,
                          const fmpz_mod_poly_t poly2, const fmpz_mod_poly_t poly3);
 
+
+/*  Berlekamp Massey *********************************************************/
+
+void
+fmpz_mod_poly_berlekamp_massey(fmpz_mod_poly_t rop, const fmpz *c, ulong k);
+
 /*  Radix conversion *********************************************************/
 
 typedef struct {
@@ -808,6 +828,13 @@ static __inline__
 int _fmpz_mod_poly_print(const fmpz *poly, slong len, const fmpz_t p)
 {
     return _fmpz_mod_poly_fprint(stdout, poly, len, p);
+}
+
+static __inline__ 
+int _fmpz_mod_poly_print_pretty(const fmpz *poly, slong len, const char * x,
+                                const fmpz_t p)
+{
+    return _fmpz_poly_fprint_pretty(stdout, poly, len, x);
 }
 
 static __inline__
