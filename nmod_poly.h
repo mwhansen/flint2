@@ -550,6 +550,22 @@ int _nmod_poly_invmod(mp_limb_t *A,
 int nmod_poly_invmod(nmod_poly_t A, 
                      const nmod_poly_t B, const nmod_poly_t P);
 
+
+void
+_nmod_poly_mulmod_transposed_preinv(mp_ptr rop,
+                                    mp_srcptr b, slong lenb,
+                                    mp_srcptr a,
+                                    mp_srcptr f, slong lenf,
+                                    mp_srcptr finv, slong lenfinv,
+                                    const nmod_t p);
+
+void
+nmod_poly_mulmod_transposed_preinv(mp_ptr rop,
+                                   const nmod_poly_t b,
+                                   mp_srcptr a,
+                                   const nmod_poly_t f,
+                                   const nmod_poly_t finv);
+
 /* Powering  *****************************************************************/
 
 void _nmod_poly_pow_binexp(mp_ptr res, 
