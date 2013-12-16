@@ -34,21 +34,22 @@ main(void)
     flint_printf("berlekamp_massey....");
     fflush(stdout);
 
-    for (i = 0; i < 100 * flint_test_multiplier(); i++)
+    for (i = 0; i < 50 * flint_test_multiplier(); i++)
     {
         fmpz_t p, lcinv;
-        fmpz_mod_poly_t poly, res;
+        fmpz_mod_poly_t poly, res, q, r;
         fmpz *c;
         slong d;
 
         fmpz_init_set_ui(p, n_randtest_prime(state, 0));
-        fmpz_set_ui(p, 5);
 
         fmpz_mod_poly_init(res, p);
         fmpz_mod_poly_init(poly, p);
+        fmpz_mod_poly_init(q, p);
+        fmpz_mod_poly_init(r, p);
 
         /* Generate random polynomial */
-        fmpz_mod_poly_randtest_irreducible(poly, state, n_randint(state, 20) + 2);
+        fmpz_mod_poly_randtest_monic(poly, state, n_randint(state, 50) + 2);
 
         fmpz_init(lcinv);
         fmpz_invmod(lcinv, poly->coeffs + poly->length - 1, p);
@@ -78,10 +79,15 @@ main(void)
         }
 
         fmpz_mod_poly_berlekamp_massey(res, c, d);
-        fmpz_mod_poly_make_monic(res, res);
-        fmpz_mod_poly_scalar_mul_fmpz(res, res, poly->coeffs + poly->length - 1);
+        fmpz_mod_poly_divrem(q, r, poly, res);
 
-        result = (fmpz_mod_poly_equal(res, poly));
+        result = (fmpz_mod_poly_is_zero(r));
+        if (fmpz_mod_poly_is_irreducible(poly))
+        {
+            fmpz_mod_poly_make_monic(res, res);
+            result = result && fmpz_mod_poly_equal(res, poly);
+        }
+
         if (!result)
         {
             flint_printf("FAIL:\n");
