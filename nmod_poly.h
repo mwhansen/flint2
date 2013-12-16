@@ -1134,6 +1134,10 @@ void  _nmod_poly_exp_expinv_series(mp_ptr f, mp_ptr g, mp_srcptr h, slong n, nmo
 void _nmod_poly_exp_series(mp_ptr f, mp_srcptr h, slong n, nmod_t mod);
 void nmod_poly_exp_series(nmod_poly_t f, const nmod_poly_t h, slong n);
 
+/* Berlekamp Massey **********************************************************/
+void
+nmod_poly_berlekamp_massey(nmod_poly_t rop, mp_srcptr c, slong k);
+
 /* Products  *****************************************************************/
 
 void
