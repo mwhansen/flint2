@@ -32,6 +32,6 @@
 
 #define T fq
 #define CAP_T FQ
-#include "fq_templates/root.c"
+#include "fq_templates/root_edf.c"
 #undef CAP_T
 #undef T

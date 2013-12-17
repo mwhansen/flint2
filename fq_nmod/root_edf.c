@@ -24,6 +24,7 @@
 ******************************************************************************/
 
 #include "fq_nmod.h"
+#include "fq_nmod_poly.h"
 
 #ifdef T
 #undef T
@@ -31,6 +32,6 @@
 
 #define T fq_nmod
 #define CAP_T FQ_NMOD
-#include "fq_templates/test/t-root.c"
+#include "fq_templates/root_edf.c"
 #undef CAP_T
 #undef T
