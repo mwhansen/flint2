@@ -23,36 +23,48 @@
 
 ******************************************************************************/
 
-#ifdef T
-
-#include "templates.h"
+#include "fq.h"
 
 void
-TEMPLATE(T, gcdinv)(TEMPLATE(T, t) rop, TEMPLATE(T, t) inv,
-                    const TEMPLATE(T, t) op,
-                    const TEMPLATE(T, ctx_t) ctx);
+fq_compose(fq_t rop, const fq_t op, const fq_t xp, const fq_ctx_t ctx)
+{
+    fmpz* xpp;
+    slong d = fq_ctx_degree(ctx);
+    
+    if (fq_is_zero(op, ctx))
+    {
+        fq_zero(rop, ctx);
+        return;
+    }
 
-int
-TEMPLATE(T, is_invertible)(const TEMPLATE(T, t) op,
-                           const TEMPLATE(T, ctx_t) ctx);
+    if (op->length == 1)
+    {
+        fq_set(rop, op, ctx);
+        return;
+    }
 
-int
-TEMPLATE(T, is_invertible_f)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op,
-                             const TEMPLATE(T, ctx_t) ctx);
+    if (rop == op)
+    {
+        fq_t tmp;
+        fq_init(tmp, ctx);
+        fq_compose(tmp, op, xp, ctx);
+        fq_swap(rop, tmp, ctx);
+        fq_clear(tmp, ctx);
+        return;
+    }
 
-void
-TEMPLATE(T, div)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op1,
-                 const TEMPLATE(T, t) op2, const TEMPLATE(T, ctx_t) ctx);
+    xpp = _fmpz_vec_init(d);
+    _fmpz_vec_set(xpp, xp->coeffs, xp->length);
+    _fmpz_vec_zero(xp->coeffs + xp->length, d - xp->length);
+    
+    fmpz_poly_fit_length(rop, d);
+    _fmpz_mod_poly_compose_mod_brent_kung_preinv(rop->coeffs,
+             op->coeffs, op->length, xpp,
+             ctx->modulus->coeffs, ctx->modulus->length,
+             ctx->inv->coeffs, ctx->inv->length,
+             fq_ctx_prime(ctx));
+    _fmpz_poly_set_length(rop, d);
+    _fmpz_poly_normalise(rop);
 
-/* Root finding */
-
-void
-TEMPLATE(T, compose)(TEMPLATE(T, t) rop,
-                     const TEMPLATE(T, t) op, const TEMPLATE(T, t) xp,
-                     const TEMPLATE(T, ctx_t) ctx);
-
-int
-TEMPLATE(T, root)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op, slong n,
-                  const TEMPLATE(T, ctx_t) ctx);
-
-#endif
+    _fmpz_vec_clear(xpp, d);
+}

@@ -23,36 +23,11 @@
 
 ******************************************************************************/
 
-#ifdef T
-
-#include "templates.h"
+#include "fq_zech.h"
 
 void
-TEMPLATE(T, gcdinv)(TEMPLATE(T, t) rop, TEMPLATE(T, t) inv,
-                    const TEMPLATE(T, t) op,
-                    const TEMPLATE(T, ctx_t) ctx);
-
-int
-TEMPLATE(T, is_invertible)(const TEMPLATE(T, t) op,
-                           const TEMPLATE(T, ctx_t) ctx);
-
-int
-TEMPLATE(T, is_invertible_f)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op,
-                             const TEMPLATE(T, ctx_t) ctx);
-
-void
-TEMPLATE(T, div)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op1,
-                 const TEMPLATE(T, t) op2, const TEMPLATE(T, ctx_t) ctx);
-
-/* Root finding */
-
-void
-TEMPLATE(T, compose)(TEMPLATE(T, t) rop,
-                     const TEMPLATE(T, t) op, const TEMPLATE(T, t) xp,
-                     const TEMPLATE(T, ctx_t) ctx);
-
-int
-TEMPLATE(T, root)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op, slong n,
-                  const TEMPLATE(T, ctx_t) ctx);
-
-#endif
+fq_zech_compose(fq_zech_t rop, const fq_zech_t op,
+                const fq_zech_t xp, const fq_zech_ctx_t ctx)
+{
+    fq_zech_pow_ui(rop, op, xp->value, ctx);
+}

@@ -23,36 +23,12 @@
 
 ******************************************************************************/
 
-#ifdef T
-
-#include "templates.h"
+#include "fq_nmod.h"
 
 void
-TEMPLATE(T, gcdinv)(TEMPLATE(T, t) rop, TEMPLATE(T, t) inv,
-                    const TEMPLATE(T, t) op,
-                    const TEMPLATE(T, ctx_t) ctx);
-
-int
-TEMPLATE(T, is_invertible)(const TEMPLATE(T, t) op,
-                           const TEMPLATE(T, ctx_t) ctx);
-
-int
-TEMPLATE(T, is_invertible_f)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op,
-                             const TEMPLATE(T, ctx_t) ctx);
-
-void
-TEMPLATE(T, div)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op1,
-                 const TEMPLATE(T, t) op2, const TEMPLATE(T, ctx_t) ctx);
-
-/* Root finding */
-
-void
-TEMPLATE(T, compose)(TEMPLATE(T, t) rop,
-                     const TEMPLATE(T, t) op, const TEMPLATE(T, t) xp,
-                     const TEMPLATE(T, ctx_t) ctx);
-
-int
-TEMPLATE(T, root)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op, slong n,
-                  const TEMPLATE(T, ctx_t) ctx);
-
-#endif
+fq_nmod_compose(fq_nmod_t rop, const fq_nmod_t op,
+                const fq_nmod_t xp, const fq_nmod_ctx_t ctx)
+{
+    nmod_poly_compose_mod_brent_kung_preinv(rop, op, xp,
+                                            ctx->modulus, ctx->inv);
+}
