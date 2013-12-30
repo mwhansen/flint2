@@ -307,6 +307,11 @@ void fq_zech_frobenius(fq_zech_t rop, const fq_zech_t op, slong e,
 
 void fq_zech_norm(fmpz_t rop, const fq_zech_t op, const fq_zech_ctx_t ctx);
 
+/* Minimal polynomial ******************************************************/    
+
+void
+fq_zech_minpoly(nmod_poly_t g, const fq_zech_t op, const fq_zech_ctx_t ctx);
+
 /* Bit packing ******************************************************/
 
 void
