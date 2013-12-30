@@ -52,7 +52,7 @@ TEMPLATE(T, compose)(TEMPLATE(T, t) rop,
                      const TEMPLATE(T, ctx_t) ctx);
 
 int
-TEMPLATE(T, root)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op, slong n,
-                  const TEMPLATE(T, ctx_t) ctx);
+TEMPLATE(T, root_edf)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op, slong n,
+                      const TEMPLATE(T, ctx_t) ctx);
 
 #endif

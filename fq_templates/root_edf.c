@@ -29,8 +29,8 @@
 #include "templates.h"
 
 int
-TEMPLATE(T, root)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op, slong n,
-                  const TEMPLATE(T, ctx_t) ctx)
+TEMPLATE(T, root_edf)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op, slong n,
+                      const TEMPLATE(T, ctx_t) ctx)
 {
     int found = 0;
     slong i;

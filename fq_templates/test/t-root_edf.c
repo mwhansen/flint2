@@ -34,7 +34,7 @@ main(void)
     int i, result;
     FLINT_TEST_INIT(state);
 
-    flint_printf("root... ");
+    flint_printf("root_edf... ");
     fflush(stdout);
 
     for (i = 0; i < 50 * flint_test_multiplier(); i++)
@@ -53,7 +53,7 @@ main(void)
         e = n_randint(state, 20) + 1;
         TEMPLATE(T, pow_ui)(a, a, e, ctx);
 
-        result = TEMPLATE(T, root)(b, a, e, ctx);
+        result = TEMPLATE(T, root_edf)(b, a, e, ctx);
         TEMPLATE(T, pow_ui)(c, b, e, ctx);
         
         result = result && TEMPLATE(T, equal)(a, c, ctx);
@@ -89,7 +89,7 @@ main(void)
 
         e = n_randint(state, 20) + 1;
 
-        result = TEMPLATE(T, root)(b, a, e, ctx);
+        result = TEMPLATE(T, root_edf)(b, a, e, ctx);
         
         if (result)
         {
