@@ -28,6 +28,10 @@
 #include "templates.h"
 
 void
+TEMPLATE(T, ctx_init_minpoly)(TEMPLATE(T, ctx_t) ctxp, const TEMPLATE(T, t) op,
+                                      const char *var, const TEMPLATE(T, ctx_t) ctx);
+
+void
 TEMPLATE(T, gcdinv)(TEMPLATE(T, t) rop, TEMPLATE(T, t) inv,
                     const TEMPLATE(T, t) op,
                     const TEMPLATE(T, ctx_t) ctx);
