@@ -132,6 +132,10 @@ void nmod_poly_zero(nmod_poly_t res)
 
     Sets \code{res} to the zero polynomial.
 
+void nmod_poly_gen(nmod_poly_t res)
+
+    Sets \code{res} to the generator of the polynomial ring.
+
 void nmod_poly_truncate(nmod_poly_t poly, slong len)
 
     Truncates \code{poly} to the given length and normalises it.
