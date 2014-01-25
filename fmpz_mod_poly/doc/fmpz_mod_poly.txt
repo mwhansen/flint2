@@ -220,6 +220,15 @@ void fmpz_mod_poly_zero_coeffs(fmpz_mod_poly_t poly, slong i, slong j)
     Sets the coefficients of $X^k$ for $k \in [i, j)$ in the polynomial
     to zero.
 
+void fmpz_mod_poly_one(fmpz_mod_poly_t poly)
+
+    Sets \code{poly} to the one polynomial.
+
+
+void fmpz_mod_poly_gen(fmpz_mod_poly_t poly)
+
+    Sets \code{poly} to the generator $x$ of the polynomial ring.
+
 void fmpz_mod_poly_reverse(fmpz_mod_poly_t res,
                            const fmpz_mod_poly_t poly, slong n)
 
@@ -266,6 +275,10 @@ int fmpz_mod_poly_equal(const fmpz_mod_poly_t poly1,
 int fmpz_mod_poly_is_zero(const fmpz_mod_poly_t poly)
 
     Returns non-zero if the polynomial is zero.
+
+int fmpz_mod_poly_is_one(const fmpz_mod_poly_t poly)
+
+    Returns non-zero if the polynomial is one.
 
 *******************************************************************************
 
