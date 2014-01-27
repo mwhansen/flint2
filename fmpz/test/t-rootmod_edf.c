@@ -32,7 +32,7 @@ int main(void)
     int i, result;
     FLINT_TEST_INIT(state);
 
-    flint_printf("rootmod....");
+    flint_printf("rootmod_edf....");
     fflush(stdout);
 
     for (i = 0; i < 100 * flint_test_multiplier(); i++) /* Test random integers */
@@ -55,7 +55,7 @@ int main(void)
         fmpz_set_ui(p, prime);
         fmpz_randm(a, state, p);
 
-        ans = fmpz_rootmod(b, a, n, p);
+        ans = fmpz_rootmod_edf(b, a, n, p);
 
         fmpz_powm_ui(c, b, n, p);
 
@@ -103,7 +103,7 @@ int main(void)
         /* a = b ^ n mod p */
         fmpz_powm_ui(a, b, n, p);
 
-        ans = fmpz_rootmod(c, a, n, p);
+        ans = fmpz_rootmod_edf(c, a, n, p);
 
         fmpz_powm_ui(d, c, n, p);
 

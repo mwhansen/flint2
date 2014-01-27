@@ -27,7 +27,7 @@
 #include "fmpz_mod_poly.h"
 
 int
-fmpz_rootmod(fmpz_t rop, const fmpz_t op, slong n, const fmpz_t p)
+fmpz_rootmod_edf(fmpz_t rop, const fmpz_t op, slong n, const fmpz_t p)
 {
     int found = 0;
     slong i;

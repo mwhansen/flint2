@@ -789,10 +789,11 @@ void fmpz_root(fmpz_t r, const fmpz_t f, slong n)
     $n > 0$ and that if $n$ is even then $f$ be non-negative, otherwise an
     exception is raised.
 
-int fmpz_rootmod(fmpz_t r, const fmpz_t f, slong n, const fmpz_t p)
+int fmpz_rootmod_edf(fmpz_t r, const fmpz_t f, slong n, const fmpz_t p)
 
     Returns whether $f$ is an $n^{th}$ power modulo $p$ and sets $r$
-    to the $n^{th}$ root of $f$ if this is the case.
+    to the $n^{th}$ root of $f$ if this is the case.  The algorithm
+    uses equal degree factorisation of the polynomial $x^n - f$.
 
 void fmpz_fac_ui(fmpz_t f, ulong n)
 
