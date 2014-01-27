@@ -26,7 +26,7 @@
 #include "nmod_poly.h"
 
 mp_limb_t
-n_rootmod(mp_limb_t a, slong n, mp_limb_t p)
+n_rootmod_edf(mp_limb_t a, slong n, mp_limb_t p)
 {
     mp_limb_t found = 0;
     slong i;

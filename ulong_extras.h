@@ -244,7 +244,7 @@ mp_limb_t n_negmod(mp_limb_t x, mp_limb_t n)
 
 mp_limb_t n_sqrtmod(mp_limb_t a, mp_limb_t p);
 
-mp_limb_t n_rootmod(mp_limb_t a, slong n, mp_limb_t p);
+mp_limb_t n_rootmod_edf(mp_limb_t a, slong n, mp_limb_t p);
 
 slong n_sqrtmod_2pow(mp_limb_t ** sqrt, mp_limb_t a, slong exp); 
 

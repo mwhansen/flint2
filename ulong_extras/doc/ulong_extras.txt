@@ -521,12 +521,14 @@ slong n_sqrtmodn(mp_limb_t ** sqrt, mp_limb_t a, n_factor_t * fac)
     \code{m} then 0 is returned by the function and the location \code{sqrt}
     points to is set to NULL.
 
-mp_limb_t n_rootmod(mp_limb_t a, slong n, mp_limb_t p)
+mp_limb_t n_rootmod_edf(mp_limb_t a, slong n, mp_limb_t p)
 
     Computes a $n^{th}$ root of $a$ modulo $p$.
 
     Assumes that $p$ is a prime and that $a$ is reduced modulo $p$.
-    Returns 0 if $a$ is a non $n^{th}$-residue modulo $p$.
+    Returns 0 if $a$ is a non $n^{th}$-residue modulo $p$.  The
+    algorithm uses equal degree factorisation of the polynomial
+    $x^n - f$.
 
 *******************************************************************************
 

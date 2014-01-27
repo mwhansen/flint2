@@ -31,7 +31,7 @@ int main(void)
     int i, result;
     FLINT_TEST_INIT(state);
 
-    flint_printf("rootmod....");
+    flint_printf("rootmod_edf....");
     fflush(stdout);
 
     for (i = 0; i < 100 * flint_test_multiplier(); i++) /* Test random integers */
@@ -44,7 +44,7 @@ int main(void)
         p = n_randtest_prime(state, 0);
         a = n_randtest(state) % p;
 
-        b = n_rootmod(a, n, p);
+        b = n_rootmod_edf(a, n, p);
 
         result = (b == 0 || n_powmod2(b, n, p) == a);
         if (!result)
@@ -72,7 +72,7 @@ int main(void)
         n = n_randint(state, 32) + 2;
 
         a = n_powmod2(b, n, p);
-        b = n_rootmod(a, n, p);
+        b = n_rootmod_edf(a, n, p);
 
         result = (n_powmod2(b, n, p) == a);
         if (!result)
