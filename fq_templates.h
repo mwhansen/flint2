@@ -59,4 +59,8 @@ int
 TEMPLATE(T, root_edf)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op, slong n,
                       const TEMPLATE(T, ctx_t) ctx);
 
+int
+_TEMPLATE(T, root_prime)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op, slong n,
+                         const TEMPLATE(T, ctx_t) ctx);
+
 #endif
