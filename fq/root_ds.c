@@ -31,6 +31,6 @@
 
 #define T fq
 #define CAP_T FQ
-#include "fq_templates/root_prime.c"
+#include "fq_templates/root_ds.c"
 #undef CAP_T
 #undef T

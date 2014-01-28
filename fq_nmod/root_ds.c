@@ -31,6 +31,6 @@
 
 #define T fq_nmod
 #define CAP_T FQ_NMOD
-#include "fq_templates/test/t-root_prime.c"
+#include "fq_templates/root_ds.c"
 #undef CAP_T
 #undef T

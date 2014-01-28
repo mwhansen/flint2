@@ -23,14 +23,14 @@
 
 ******************************************************************************/
 
-#include "fq_nmod.h"
+#include "fq_zech.h"
 
 #ifdef T
 #undef T
 #endif
 
-#define T fq_nmod
-#define CAP_T FQ_NMOD
-#include "fq_templates/root_prime.c"
+#define T fq_zech
+#define CAP_T FQ_ZECH
+#include "fq_templates/root_ds.c"
 #undef CAP_T
 #undef T
