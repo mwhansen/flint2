@@ -60,6 +60,33 @@ TEMPLATE(T, root_edf)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op, slong n,
                       const TEMPLATE(T, ctx_t) ctx);
 
 int
+TEMPLATE(T, root_ds)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op, slong n,
+                     const TEMPLATE(T, ctx_t) ctx);
+
+void
+__TEMPLATE(T, root_ds_s_ell)(fmpz_t s, fmpz_t ell, fmpz_t e, slong t,
+                             const TEMPLATE(T, ctx_t) ctx);
+
+void
+__TEMPLATE(T, root_ds_qm1ot)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op,
+                             const fmpz_t s, const fmpz_t ell, const fmpz_t e,
+                             slong t, const TEMPLATE(T, ctx_t) ctx);
+
+void
+__TEMPLATE(T, root_ds_xi1zeta1)(TEMPLATE(T, t) xi1, TEMPLATE(T, t) zeta1,
+                                TEMPLATE(T, t) xp,
+                                const TEMPLATE(T, t) op,
+                                const fmpz_t s,
+                                const TEMPLATE(T, ctx_t) ctx);
+
+void
+__TEMPLATE(T, root_ds_xizeta)(TEMPLATE(T, t) xi, TEMPLATE(T, t) zeta,
+                              ulong i,
+                              const TEMPLATE(T, t) xi1,
+                              const TEMPLATE(T, t) zeta1,
+                              const TEMPLATE(T, ctx_t) ctx);
+
+int
 _TEMPLATE(T, root_prime)(TEMPLATE(T, t) rop, const TEMPLATE(T, t) op, slong n,
                          const TEMPLATE(T, ctx_t) ctx);
 
