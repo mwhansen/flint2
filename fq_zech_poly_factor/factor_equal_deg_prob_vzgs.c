@@ -19,32 +19,18 @@
 =============================================================================*/
 /******************************************************************************
 
-    Copyright (C) 2007 David Howden
-    Copyright (C) 2007, 2008, 2009, 2010 William Hart
-    Copyright (C) 2008 Richard Howell-Peak
-    Copyright (C) 2011 Fredrik Johansson
-    Copyright (C) 2012 Lina Kulakova
-    Copyright (C) 2013 Mike Hansen
+    Copyright (C) 2014 Mike Hansen
 
 ******************************************************************************/
 
+#include "fq_zech_poly.h"
 
 #ifdef T
-
-#include "templates.h"
-#include "ulong_extras.h"
-
-int
-TEMPLATE(T, poly_factor_equal_deg_prob) (TEMPLATE(T, poly_t) f,
-                                         TEMPLATE(T, poly_t) g,
-                                         flint_rand_t state,
-                                         const TEMPLATE(T, poly_t) pol,
-                                         slong d,
-                                         const TEMPLATE(T, ctx_t) ctx)
-{
-    /* TODO: Add profiling for cutoff between cz and vzgs */
-    return TEMPLATE(T, poly_factor_equal_deg_prob_cz)(f, g, state, pol, d, ctx);
-}
-
-
+#undef T
 #endif
+
+#define T fq_zech
+#define CAP_T FQ_ZECH
+#include "fq_poly_factor_templates/factor_equal_deg_prob_vzgs.c"
+#undef CAP_T
+#undef T
