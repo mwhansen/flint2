@@ -55,8 +55,9 @@ fq_compose(fq_t rop, const fq_t op, const fq_t xp, const fq_ctx_t ctx)
 
     xpp = _fmpz_vec_init(d);
     _fmpz_vec_set(xpp, xp->coeffs, xp->length);
-    _fmpz_vec_zero(xp->coeffs + xp->length, d - xp->length);
-    
+    _fmpz_vec_zero(xpp + xp->length, d - xp->length);
+
+    /* TODO: use _fmpz_mod_poly_compose_preinv to allow cutoff */
     fmpz_poly_fit_length(rop, d);
     _fmpz_mod_poly_compose_mod_brent_kung_preinv(rop->coeffs,
              op->coeffs, op->length, xpp,
