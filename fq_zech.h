@@ -212,6 +212,14 @@ fq_zech_is_one(const fq_zech_t op, const fq_zech_ctx_t ctx)
     return op->value == 0;
 }
 
+static __inline__ int
+fq_zech_is_in_prime_field(const fq_zech_t op, const fq_zech_ctx_t ctx)
+{
+    return op->value == ctx->qm1 || ctx->eval_table[op->value] < ctx->p;
+}
+
+
+
 /* Assignments and conversions ***********************************************/
 
 static __inline__ void

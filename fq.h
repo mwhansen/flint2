@@ -264,6 +264,11 @@ static __inline__ int fq_is_one(const fq_t op, const fq_ctx_t ctx)
     return fmpz_poly_is_one(op);
 }
 
+static __inline__ int fq_is_in_prime_field(const fq_t op, const fq_ctx_t ctx)
+{
+    return op->length <= 1;
+}
+
 /* Assignments and conversions ***********************************************/
 
 static __inline__ void fq_set(fq_t rop, const fq_t op, const fq_ctx_t ctx)

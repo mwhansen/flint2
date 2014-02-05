@@ -292,6 +292,14 @@ static __inline__ int fq_nmod_is_one(const fq_nmod_t op, const fq_nmod_ctx_t ctx
     return nmod_poly_is_one(op);
 }
 
+static __inline__ int fq_nmod_is_in_prime_field(const fq_nmod_t op,
+                                                const fq_nmod_ctx_t ctx)
+{
+    return op->length <= 1;
+}
+
+
+
 /* Assignments and conversions ***********************************************/
 
 static __inline__ void fq_nmod_set(fq_nmod_t rop, const fq_nmod_t op,
