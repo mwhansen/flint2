@@ -52,4 +52,12 @@
 
 #include "fq_zech_poly_factor.h"
 
+
+static __inline__ int
+FQ_ZECH_POLY_POWMOD_XQ_PREINV_USE_DIRECT(const fq_zech_poly_t poly,
+                                         const fq_zech_ctx_t ctx)
+{
+    return 1;
+}
+
 #endif

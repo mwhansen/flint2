@@ -124,7 +124,10 @@ TEMPLATE(T, poly_powmod_xq_preinv)(TEMPLATE(T, poly_t) rop,
                                    const TEMPLATE(T, poly_t) finv,
                                    const TEMPLATE(T, ctx_t) ctx)
 {
-    __TEMPLATE(T, poly_powmod_xq_preinv_direct)(rop, f, finv, ctx);
+    if (TEMPLATE(CAP_T, POLY_POWMOD_XQ_PREINV_USE_DIRECT)(f, ctx))
+        __TEMPLATE(T, poly_powmod_xq_preinv_direct)(rop, f, finv, ctx);
+    else
+        __TEMPLATE(T, poly_powmod_xq_preinv_compose)(rop, f, finv, ctx);
 }
 
 #endif
