@@ -34,7 +34,7 @@
 #include <math.h>
 #include "profiler.h"
 
-#define nalgs 3
+#define nalgs 2
 #define cpumin 2
 #define ncases 10
 
@@ -83,20 +83,20 @@ main(int argc, char** argv)
                 
     loop:
 
-        t[0] = 0.0;
-        init_clock(0);
-        prof_start();
-        for (lo = 0; lo < loops; lo++)
-        {
-            TEMPLATE(T, poly_factor_init)(factors, ctx);
-            TEMPLATE(T, poly_factor_equal_deg_cz)(factors, f, lenf - 1, ctx);
-            TEMPLATE(T, poly_factor_clear)(factors, ctx);
-        }
-        prof_stop();
-        t[0] += get_clock(0);
+        /* t[0] = 0.0; */
+        /* init_clock(0); */
+        /* prof_start(); */
+        /* for (lo = 0; lo < loops; lo++) */
+        /* { */
+        /*     TEMPLATE(T, poly_factor_init)(factors, ctx); */
+        /*     TEMPLATE(T, poly_factor_equal_deg_cz)(factors, f, lenf - 1, ctx); */
+        /*     TEMPLATE(T, poly_factor_clear)(factors, ctx); */
+        /* } */
+        /* prof_stop(); */
+        /* t[0] += get_clock(0); */
 
         
-        t[1] = 0.0;
+        t[0] = 0.0;
         init_clock(0);
         prof_start();
         for (lo = 0; lo < loops; lo++)
@@ -106,9 +106,9 @@ main(int argc, char** argv)
             TEMPLATE(T, poly_factor_clear)(factors, ctx);
         }
         prof_stop();
-        t[1] += get_clock(0);
+        t[0] += get_clock(0);
 
-        t[2] = 0.0;
+        t[1] = 0.0;
         init_clock(0);
         prof_start();
         for (lo = 0; lo < loops; lo++)
@@ -118,7 +118,7 @@ main(int argc, char** argv)
             TEMPLATE(T, poly_factor_clear)(factors, ctx);
         }
         prof_stop();
-        t[2] += get_clock(0);
+        t[1] += get_clock(0);
 
         for (c = 0; c < nalgs; c++)
             if (t[c] * FLINT_CLOCK_SCALE_FACTOR <= cpumin)
