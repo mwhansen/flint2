@@ -19,19 +19,19 @@
 =============================================================================*/
 /******************************************************************************
 
+    Copyright (C) 2011, 2012 Sebastian Pancratz 
     Copyright (C) 2013 Mike Hansen
 
 ******************************************************************************/
 
-#include "fq_zech.h"
+#include "fq_nmod.h"
 
 void
-fq_zech_set_fmpz(fq_zech_t rop, const fmpz_t x, const fq_zech_ctx_t ctx)
+fq_nmod_pow_ui(fq_nmod_t rop, const fq_nmod_t op, const ulong e,
+               const fq_nmod_ctx_t ctx)
 {
-    fmpz_t y;
-
-    fmpz_init(y);
-    fmpz_mod_ui(y, x, ctx->p);
-    rop->value = ctx->prime_field_table[fmpz_get_ui(y)];
-    fmpz_clear(y);
+    fmpz_t exp;
+    fmpz_init_set_ui(exp, e);
+    fq_nmod_pow(rop, op, exp, ctx);
+    fmpz_clear(exp);
 }
