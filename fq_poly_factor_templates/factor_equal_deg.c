@@ -40,48 +40,14 @@ TEMPLATE(T, poly_factor_equal_deg) (TEMPLATE(T, poly_factor_t) factors,
                                     const TEMPLATE(T, poly_t) pol, slong d,
                                     const TEMPLATE(T, ctx_t) ctx)
 {
-    if (pol->length == d + 1)
+    if (TEMPLATE(CAP_T, POLY_FACTOR_EQUAL_DEG_USE_VZGS)(pol, ctx))
     {
-        TEMPLATE(T, poly_factor_insert) (factors, pol, 1, ctx);
+        TEMPLATE(T, poly_factor_equal_deg_vzgs)(factors, pol, d, ctx);
     }
     else
     {
-        TEMPLATE(T, poly_t) f, g, h, r;
-        int factors_found;
-        flint_rand_t state;
-
-        TEMPLATE(T, poly_init) (f, ctx);
-        TEMPLATE(T, poly_init) (g, ctx);
-        TEMPLATE(T, poly_init) (h, ctx);
-        TEMPLATE(T, poly_init) (r, ctx);
-
-        flint_randinit(state);
-
-        factors_found = 0;
-        while (!factors_found)
-        {
-            factors_found = TEMPLATE(T, poly_factor_equal_deg_prob)
-                                (f, g, state, pol, d, ctx);
-        }
-
-        flint_randclear(state);
-
-        TEMPLATE(T, poly_divrem) (h, r, pol, f, ctx);
-        TEMPLATE(T, poly_factor_equal_deg) (factors, f, d, ctx);
-        if (factors_found == 2)
-        {
-            TEMPLATE(T, poly_divrem) (h, r, h, g, ctx);
-            TEMPLATE(T, poly_factor_equal_deg) (factors, g, d, ctx);
-        }
-        if (!TEMPLATE(T, poly_is_one)(h, ctx))
-            TEMPLATE(T, poly_factor_equal_deg) (factors, h, d, ctx);
-
-        TEMPLATE(T, poly_clear) (f, ctx);
-        TEMPLATE(T, poly_clear) (g, ctx);
-        TEMPLATE(T, poly_clear) (h, ctx);
-        TEMPLATE(T, poly_clear) (r, ctx);
+        TEMPLATE(T, poly_factor_equal_deg_ks)(factors, pol, d, ctx);
     }
 }
-
 
 #endif

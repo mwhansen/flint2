@@ -63,7 +63,7 @@ TEMPLATE(T, poly_is_irreducible_ben_or) (const TEMPLATE(T, poly_t) f,
     fmpz_pow_ui(q, TEMPLATE(T, ctx_prime) (ctx),
                 TEMPLATE(T, ctx_degree) (ctx));
     TEMPLATE(T, poly_gen) (x, ctx);
-    TEMPLATE(T, poly_powmod_fmpz_sliding_preinv) (xq, x, q, 0, v, vinv, ctx);
+    TEMPLATE(T, poly_powmod_xq_preinv)(xq, v, vinv, ctx);
     TEMPLATE(T, poly_set) (xqimx, xq, ctx);
 
     result = 1;

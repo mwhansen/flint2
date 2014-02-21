@@ -172,13 +172,3 @@ void fq_nmod_pow(fq_nmod_t rop, const fq_nmod_t op, const fmpz_t e, const fq_nmo
         _nmod_poly_normalise(rop);
     }
 }
-
-
-/* TODO: Move into separate function / optimize */
-void fq_nmod_pow_ui(fq_nmod_t rop, const fq_nmod_t op, const ulong e, const fq_nmod_ctx_t ctx)
-{
-    fmpz_t exp;
-    fmpz_init_set_ui(exp, e);
-    fq_nmod_pow(rop, op, exp, ctx);
-    fmpz_clear(exp);
-}

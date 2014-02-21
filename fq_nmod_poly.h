@@ -30,6 +30,7 @@
 
 #include "fq_nmod.h"
 #include "fq_nmod_mat.h"
+#include "math.h"
 
 #define FQ_NMOD_POLY_DIVREM_DIVCONQUER_CUTOFF  16
 #define FQ_NMOD_COMPOSE_MOD_LENH_CUTOFF 6
@@ -54,5 +55,19 @@
 #undef T
 
 #include "fq_nmod_poly_factor.h"
+
+static __inline__ int
+FQ_NMOD_POLY_POWMOD_XQ_PREINV_USE_DIRECT(const fq_nmod_poly_t poly,
+                                         const fq_nmod_ctx_t ctx)
+{
+    double cutoff;
+    cutoff = (0.856 * fmpz_bits(fq_nmod_ctx_prime(ctx)) +
+              3.795 * FLINT_BIT_COUNT(fq_nmod_ctx_degree(ctx)) -
+              11.044);
+    if (sqrt((double) poly->length) > cutoff)
+        return 1;
+    else
+        return 0;
+}
 
 #endif

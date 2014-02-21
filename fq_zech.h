@@ -212,6 +212,14 @@ fq_zech_is_one(const fq_zech_t op, const fq_zech_ctx_t ctx)
     return op->value == 0;
 }
 
+static __inline__ int
+fq_zech_is_in_prime_field(const fq_zech_t op, const fq_zech_ctx_t ctx)
+{
+    return op->value == ctx->qm1 || ctx->eval_table[op->value] < ctx->p;
+}
+
+
+
 /* Assignments and conversions ***********************************************/
 
 static __inline__ void
@@ -306,6 +314,11 @@ void fq_zech_frobenius(fq_zech_t rop, const fq_zech_t op, slong e,
                        const fq_zech_ctx_t ctx);
 
 void fq_zech_norm(fmpz_t rop, const fq_zech_t op, const fq_zech_ctx_t ctx);
+
+/* Minimal polynomial ******************************************************/    
+
+void
+fq_zech_minpoly(nmod_poly_t g, const fq_zech_t op, const fq_zech_ctx_t ctx);
 
 /* Bit packing ******************************************************/
 

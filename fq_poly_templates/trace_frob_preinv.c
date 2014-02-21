@@ -29,6 +29,9 @@
 #include "templates.h"
 
 
+/* Algorithm 5.2 from "Computing Froebnius Maps and Factoring
+ * Polynomials" by von zur Gathen and Shoup, 1992. */
+   
 void
 TEMPLATE(T, poly_trace_frob_low_preinv)(TEMPLATE(T, poly_t) rop,
                                         const TEMPLATE(T, poly_t) alpha,

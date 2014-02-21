@@ -240,6 +240,15 @@ void nmod_poly_one(nmod_poly_t res)
 }
 
 static __inline__
+void nmod_poly_gen(nmod_poly_t res)
+{
+    nmod_poly_fit_length(res, 2);
+    res->length = 2;
+    res->coeffs[1] = 1;
+    res->coeffs[0] = 0;
+}
+
+static __inline__
 void nmod_poly_truncate(nmod_poly_t poly, slong len)
 {
     if (poly->length > len)

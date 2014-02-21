@@ -460,6 +460,8 @@ int fmpz_is_square(const fmpz_t f);
 
 void fmpz_root(fmpz_t r, const fmpz_t f, slong n);
 
+int fmpz_rootmod_edf(fmpz_t r, const fmpz_t f, slong n, const fmpz_t p);
+
 void fmpz_sqrtrem(fmpz_t f, fmpz_t r, const fmpz_t g);
 
 ulong fmpz_fdiv_ui(const fmpz_t g, ulong h);

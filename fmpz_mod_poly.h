@@ -175,7 +175,25 @@ void fmpz_mod_poly_reverse(fmpz_mod_poly_t res, const fmpz_mod_poly_t poly, slon
 static __inline__ 
 void fmpz_mod_poly_zero(fmpz_mod_poly_t poly)
 {
-   _fmpz_mod_poly_set_length(poly, 0);
+    _fmpz_mod_poly_set_length(poly, 0);
+}
+
+
+static __inline__
+void fmpz_mod_poly_one(fmpz_mod_poly_t poly)
+{
+    fmpz_mod_poly_fit_length(poly, 1);
+    fmpz_one(poly->coeffs);
+    _fmpz_mod_poly_set_length(poly, 1);
+}
+
+static __inline__
+void fmpz_mod_poly_gen(fmpz_mod_poly_t poly)
+{
+    fmpz_mod_poly_fit_length(poly, 2);
+    fmpz_zero(poly->coeffs);
+    fmpz_one(poly->coeffs + 1);
+    _fmpz_mod_poly_set_length(poly, 2);
 }
 
 void fmpz_mod_poly_zero_coeffs(fmpz_mod_poly_t poly, slong i, slong j);
@@ -219,6 +237,12 @@ static __inline__
 int fmpz_mod_poly_is_zero(const fmpz_mod_poly_t poly)
 {
     return (poly->length == 0);
+}
+
+static __inline__
+int fmpz_mod_poly_is_one(const fmpz_mod_poly_t poly)
+{
+    return (poly->length == 1 && fmpz_is_one(poly->coeffs));
 }
 
 /*  Getting and setting coefficients *****************************************/
@@ -633,6 +657,30 @@ int _fmpz_mod_poly_invmod(fmpz *A,
 
 int fmpz_mod_poly_invmod(fmpz_mod_poly_t A, 
                          const fmpz_mod_poly_t B, const fmpz_mod_poly_t P);
+
+
+void
+_fmpz_mod_poly_resultant_euclidean(fmpz_t rop, const fmpz* poly1, slong len1, 
+                                   const fmpz* poly2, slong len2,
+                                   const fmpz_t p);
+
+void
+fmpz_mod_poly_resultant_euclidean(fmpz_t rop, const fmpz_mod_poly_t f,
+                                  const fmpz_mod_poly_t g);
+
+static __inline__ void
+_fmpz_mod_poly_resultant(fmpz_t rop, const fmpz* poly1, slong len1, 
+                         const fmpz* poly2, slong len2, const fmpz_t p)
+{
+    _fmpz_mod_poly_resultant_euclidean(rop, poly1, len1, poly2, len2, p);
+}
+
+static __inline__ void
+fmpz_mod_poly_resultant(fmpz_t rop, const fmpz_mod_poly_t f,
+                        const fmpz_mod_poly_t g)
+{
+    fmpz_mod_poly_resultant_euclidean(rop, f, g);
+}
 
 /*  Derivative  **************************************************************/
 

@@ -28,16 +28,10 @@
 void
 fq_zech_set_fmpz(fq_zech_t rop, const fmpz_t x, const fq_zech_ctx_t ctx)
 {
-    /* TODO: Clean this up */
-    mp_limb_t ux;
     fmpz_t y;
 
     fmpz_init(y);
     fmpz_mod_ui(y, x, ctx->p);
-
-    ux = fmpz_get_ui(y);
-    fq_zech_one(rop, ctx);
-    fq_zech_mul_ui(rop, rop, ux, ctx);
-    
+    rop->value = ctx->prime_field_table[fmpz_get_ui(y)];
     fmpz_clear(y);
 }

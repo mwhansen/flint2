@@ -121,11 +121,48 @@ TEMPLATE(T, poly_factor_distinct_deg)(TEMPLATE(T, poly_factor_t) res,
                                       const TEMPLATE(T, ctx_t) ctx);
 
 int
+TEMPLATE(T, poly_factor_equal_deg_prob_cz)(TEMPLATE(T, poly_t) factor1,
+                                           TEMPLATE(T, poly_t) factor2,
+                                           flint_rand_t state,
+                                           const TEMPLATE(T, poly_t) pol,
+                                           slong d,
+                                           const TEMPLATE(T, ctx_t) ctx);
+int
+TEMPLATE(T, poly_factor_equal_deg_prob_ks)(TEMPLATE(T, poly_t) factor1,
+                                           TEMPLATE(T, poly_t) factor2,
+                                           flint_rand_t state,
+                                           const TEMPLATE(T, poly_t) pol,
+                                           slong d,
+                                           const TEMPLATE(T, ctx_t) ctx);
+
+int
+TEMPLATE(T, poly_factor_equal_deg_prob_vzgs)(TEMPLATE(T, poly_t) factor1,
+                                             TEMPLATE(T, poly_t) factor2,
+                                             flint_rand_t state,
+                                             const TEMPLATE(T, poly_t) pol,
+                                             slong d,
+                                             const TEMPLATE(T, ctx_t) ctx);
+int
 TEMPLATE(T, poly_factor_equal_deg_prob)(TEMPLATE(T, poly_t) factor1,
                                         TEMPLATE(T, poly_t) factor2,
                                         flint_rand_t state,
                                         const TEMPLATE(T, poly_t) pol, slong d,
                                         const TEMPLATE(T, ctx_t) ctx);
+
+void
+TEMPLATE(T, poly_factor_equal_deg_cz)(TEMPLATE(T, poly_factor_t) factors,
+                                      const TEMPLATE(T, poly_t) pol,
+                                      slong d, const TEMPLATE(T, ctx_t) ctx);
+
+void
+TEMPLATE(T, poly_factor_equal_deg_ks)(TEMPLATE(T, poly_factor_t) factors,
+                                      const TEMPLATE(T, poly_t) pol,
+                                      slong d, const TEMPLATE(T, ctx_t) ctx);
+
+void
+TEMPLATE(T, poly_factor_equal_deg_vzgs)(TEMPLATE(T, poly_factor_t) factors,
+                                        const TEMPLATE(T, poly_t) pol,
+                                        slong d, const TEMPLATE(T, ctx_t) ctx);
 
 void
 TEMPLATE(T, poly_factor_equal_deg)(TEMPLATE(T, poly_factor_t) factors,
