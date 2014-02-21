@@ -40,8 +40,14 @@ TEMPLATE(T, poly_factor_equal_deg) (TEMPLATE(T, poly_factor_t) factors,
                                     const TEMPLATE(T, poly_t) pol, slong d,
                                     const TEMPLATE(T, ctx_t) ctx)
 {
-    /* TODO: Add cutoff */
-    TEMPLATE(T, poly_factor_equal_deg_cz)(factors, pol, d, ctx);
+    if (TEMPLATE(CAP_T, POLY_FACTOR_EQUAL_DEG_USE_VZGS)(pol, ctx))
+    {
+        TEMPLATE(T, poly_factor_equal_deg_vzgs)(factors, pol, d, ctx);
+    }
+    else
+    {
+        TEMPLATE(T, poly_factor_equal_deg_ks)(factors, pol, d, ctx);
+    }
 }
 
 #endif

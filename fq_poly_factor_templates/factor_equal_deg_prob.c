@@ -42,8 +42,14 @@ TEMPLATE(T, poly_factor_equal_deg_prob) (TEMPLATE(T, poly_t) f,
                                          slong d,
                                          const TEMPLATE(T, ctx_t) ctx)
 {
-    /* TODO: Add profiling for cutoff between cz and vzgs */
-    return TEMPLATE(T, poly_factor_equal_deg_prob_cz)(f, g, state, pol, d, ctx);
+    if (TEMPLATE(CAP_T, POLY_FACTOR_EQUAL_DEG_USE_VZGS)(pol, ctx))
+    {
+        return TEMPLATE(T, poly_factor_equal_deg_prob_vzgs)(f, g, state, pol, d, ctx);
+    }
+    else
+    {
+        return TEMPLATE(T, poly_factor_equal_deg_prob_ks)(f, g, state, pol, d, ctx);
+    }
 }
 
 

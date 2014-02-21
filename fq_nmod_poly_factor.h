@@ -40,6 +40,21 @@ static __inline__ int FQ_NMOD_POLY_ITERATED_FROBENIUS_CUTOFF(const fq_nmod_ctx_t
     return result;
 }
 
+/* Cutoff between von zur Gathen - Shoup and Kaltofen - Shoup */
+static __inline__ int
+FQ_NMOD_POLY_FACTOR_EQUAL_DEG_USE_VZGS(const fq_nmod_poly_t poly,
+                                       const fq_nmod_ctx_t ctx)
+{
+    double cutoff;
+    cutoff = (0.123 * fmpz_bits(fq_nmod_ctx_prime(ctx)) +
+              1.372 * FLINT_BIT_COUNT(fq_nmod_ctx_degree(ctx)) -
+              2.300);
+    if (sqrt((double) poly->length) > cutoff)
+        return 1;
+    else
+        return 0;
+}
+
 #ifdef T
 #undef T
 #endif

@@ -40,6 +40,14 @@ static __inline__ int FQ_ZECH_POLY_ITERATED_FROBENIUS_CUTOFF(const fq_zech_ctx_t
     return result;
 }
 
+static __inline__ int
+FQ_ZECH_POLY_FACTOR_EQUAL_DEG_USE_VZGS(const fq_zech_poly_t poly,
+                                       const fq_zech_ctx_t ctx)
+{
+    return 0;
+}
+
+
 #ifdef T
 #undef T
 #endif
